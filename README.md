@@ -1,16 +1,22 @@
-<<<<<<< HEAD
-# React + Vite
+# Arjun Arora – Developer Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my personal developer portfolio website built using **React**, **Three.js**, **Framer Motion**, and **Tailwind CSS v4**. It showcases my projects, timeline, and contact information in an interactive and visually engaging format.
 
-Currently, two official plugins are available:
+## Features
+- 3D animated hero section with custom geometry
+- Responsive design
+- Smooth scroll and motion effects
+- Project cards with GitHub and LinkedIn integration
+- Clean, modern aesthetic inspired by industry-leading portfolios
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend**: React, Vite
+- **Styling**: Tailwind CSS v4, Framer Motion
+- **3D Graphics**: @react-three/fiber, Drei
+- **Email Integration**: EmailJS
 
-## Expanding the ESLint configuration
+## Status
+This portfolio is a work in progress and will continue to be updated as I develop new skills and complete additional projects.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# portfolio
->>>>>>> 8f93faf112032ca1af54dfcd34d2d14a8df2f2b7
+## Contact
+If you are a recruiter, potential collaborator, or simply interested, feel free to reach out through the contact form available on the website.
