@@ -27,7 +27,7 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-lg sm:text-xl leading-relaxed text-gray-300"
         >
-          I'm <strong>Arjun Arora</strong>, a Computer Science student at <strong>Santa Clara University</strong>, passionate about building cool software, exploring new tech stacks, and developing creative solutions to real-world problems. I’m also minoring in Electrical Engineering and Mathematics.
+          I'm <strong>Arjun Arora</strong>, a Computer Science student at <strong>Santa Clara University</strong>, passionate about building cool software, exploring new tech stacks, and developing creative solutions to real-world problems. I'm also minoring in Electrical Engineering and Mathematics.
         </motion.p>
 
         <motion.div
