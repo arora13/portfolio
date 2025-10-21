@@ -91,13 +91,16 @@ const GitHubContributionGraph = () => {
 
   if (error) {
     return (
-      <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-md">
-        <div className="flex items-center gap-2 mb-4">
-          <FaGithub className="text-2xl text-white" />
-          <h3 className="text-xl font-semibold text-white">GitHub Contributions</h3>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-[#1e1e1e] px-3 py-2 rounded-lg shadow-md inline-block"
+      >
+        <div className="flex items-center gap-2">
+          <FaGithub className="text-sm text-indigo-400" />
+          <span className="text-xs text-gray-300">67 contributions</span>
         </div>
-        <div className="text-red-400 text-sm">{error}</div>
-      </div>
+      </motion.div>
     );
   }
 
