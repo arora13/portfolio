@@ -38,7 +38,10 @@ const Hero = () => {
   })
 
   return (
-    <section className="relative w-full h-screen bg-black text-white flex flex-col justify-center overflow-hidden px-10">
+    <section
+      id="hero"
+      className="relative w-full min-h-screen bg-black text-white flex flex-col justify-center overflow-hidden px-6 sm:px-10 scroll-mt-20"
+    >
       {/* Background blur gradient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-700 via-indigo-600 to-cyan-500 blur-3xl opacity-30" />
@@ -54,8 +57,9 @@ const Hero = () => {
           transition={{ duration: 1 }}
           className="text-left space-y-6"
         >
-          <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-tight">
-            {text}<Cursor />
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-tight">
+            {text}
+            <Cursor cursorStyle="|" />
           </h1>
           <p className="text-2xl text-gray-300">Welcome to my portfolio.</p>
         </motion.div>
@@ -74,20 +78,15 @@ const Hero = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10">
-        <div className="w-[30px] h-[50px] border-2 border-white rounded-full flex items-center justify-center p-1">
-          <div className="w-2 h-2 bg-white rounded-full animate-bounce" />
+      <a
+        href="#about"
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 text-xs text-gray-500 hover:text-gray-300 transition-colors"
+        aria-label="Scroll to about section"
+      >
+        <div className="w-[28px] h-[44px] rounded-full border-2 border-white/40 flex justify-center pt-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-cyan-400/90 animate-bounce" />
         </div>
-      </div>
-
-      {/* Top Nav */}
-      <div className="absolute top-5 left-5 z-10">
-        <div className="w-6 h-6 rounded-full bg-white" />
-      </div>
-      <div className="absolute top-5 right-5 z-10 text-right text-sm text-gray-300">
-        <div>arjun@portfolio.dev</div>
-        <div className="text-white text-lg mt-1">Menu</div>
-      </div>
+      </a>
     </section>
   )
 }
