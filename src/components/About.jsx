@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { FaUniversity, FaLaptopCode, FaDownload } from 'react-icons/fa';
+import { FaUniversity, FaLaptopCode } from 'react-icons/fa';
 
 const About = () => {
   return (
@@ -101,10 +101,6 @@ const About = () => {
               <p>Currently pursuing a CS degree with a Mathematics minor, focused on software engineering, startup projects, and FAANG internship prep.</p>
             </VerticalTimelineElement>
 
-            <VerticalTimelineElement
-              iconStyle={{ background: '#fff', color: '#000' }}
-              icon={<FaDownload />}
-            />
           </VerticalTimeline>
         </motion.div>
       </div>
