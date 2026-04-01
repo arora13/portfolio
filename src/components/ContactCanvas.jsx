@@ -18,7 +18,7 @@ const ContactCanvas = () => {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 35 }}
-      style={{ height: '400px', width: '100%' }}
+      className="h-full w-full min-h-[260px]"
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1.2} />
