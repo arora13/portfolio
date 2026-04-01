@@ -189,7 +189,7 @@ const Projects = () => {
               <FaGithub />
             </a>
             <a
-              href="https://www.linkedin.com/in/arjunarora"
+              href="https://www.linkedin.com/in/arjora"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-full text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors"
