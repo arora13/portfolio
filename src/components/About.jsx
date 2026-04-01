@@ -27,8 +27,37 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-lg sm:text-xl leading-relaxed text-gray-300"
         >
-          I'm <strong>Arjun Arora</strong>, a Computer Science student at <strong>Santa Clara University</strong>, passionate about building cool software, exploring new tech stacks, and developing creative solutions to real-world problems. I'm also minoring in Electrical Engineering and Mathematics.
+          I'm <strong>Arjun Arora</strong>, a Computer Science student at <strong>Santa Clara University</strong>, passionate about building cool software, exploring new tech stacks, and developing creative solutions to real-world problems. I'm also minoring in Mathematics.
         </motion.p>
+
+        <motion.div
+          className="mt-12"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-4">Relevant Coursework</h3>
+          <p className="text-gray-400 text-sm sm:text-base mb-5 max-w-2xl">
+            Highlights from my CS and math coursework; additional courses include algorithms, calculus, and more.
+          </p>
+          <ul className="flex flex-wrap gap-2 sm:gap-3">
+            {[
+              'Data Structures',
+              'Probability & Statistics I',
+              'Probability & Statistics II',
+              'Linear Algebra',
+              'Discrete Mathematics',
+            ].map((course) => (
+              <li
+                key={course}
+                className="rounded-lg border border-gray-700/80 bg-gray-900/60 px-3 py-2 text-sm sm:text-base text-gray-200"
+              >
+                {course}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
 
         <motion.div
           className="mt-16"
@@ -69,7 +98,7 @@ const About = () => {
               icon={<FaUniversity />}
             >
               <h4>Santa Clara University (Sophomore–Senior)</h4>
-              <p>Currently pursuing a CS degree with a focus on software engineering, startup projects, and FAANG internship prep.</p>
+              <p>Currently pursuing a CS degree with a Mathematics minor, focused on software engineering, startup projects, and FAANG internship prep.</p>
             </VerticalTimelineElement>
 
             <VerticalTimelineElement
