@@ -98,7 +98,7 @@ const About = () => {
               icon={<FaUniversity />}
             >
               <h4>Santa Clara University (Sophomore–Senior)</h4>
-              <p>Currently pursuing a CS degree with a Mathematics minor, focused on software engineering, startup projects, and FAANG internship prep.</p>
+              <p>Currently pursuing a CS degree with a Mathematics minor, focused on software engineering and startup projects.</p>
             </VerticalTimelineElement>
 
           </VerticalTimeline>
