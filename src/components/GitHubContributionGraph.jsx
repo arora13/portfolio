@@ -15,10 +15,7 @@ const GitHubContributionGraph = () => {
         setLoading(true);
         setError(null);
         
-        // Fetch real contribution data from GitHub API
         const contributionData = await getContributionData();
-        console.log('Contribution data:', contributionData);
-        console.log('Total contributions:', contributionData.reduce((sum, day) => sum + day.count, 0));
         setContributions(contributionData);
         setTotalContributions(contributionData.reduce((sum, day) => sum + day.count, 0));
         
@@ -52,28 +49,6 @@ const GitHubContributionGraph = () => {
     if (count === 3) return { backgroundColor: '#16a34a' }; // green-600
     return { backgroundColor: '#15803d' }; // green-700
   };
-
-  const getMonthLabels = () => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthLabels = [];
-    let currentMonth = -1;
-    
-    contributions.forEach((contribution, index) => {
-      const date = new Date(contribution.date);
-      const month = date.getMonth();
-      
-      if (month !== currentMonth && index % 7 === 0) {
-        monthLabels.push({
-          month: months[month],
-          position: index
-        });
-        currentMonth = month;
-      }
-    });
-    
-    return monthLabels;
-  };
-
   if (loading) {
     return (
       <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-md">
@@ -103,8 +78,6 @@ const GitHubContributionGraph = () => {
       </motion.div>
     );
   }
-
-  const monthLabels = getMonthLabels();
 
   return (
     <motion.div
