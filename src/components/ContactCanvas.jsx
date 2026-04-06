@@ -1,9 +1,9 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 
 const DeskModel = () => {
-  const { scene } = useGLTF('/models/freedesktop.glb'); 
+  const { scene } = useGLTF('/models/freedesktop.glb');
   return (
     <primitive
       object={scene}
