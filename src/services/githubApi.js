@@ -47,8 +47,6 @@ export const getUserActivity = async (perPage = 30) => {
 // Get contribution data from GitHub GraphQL API
 export const getContributionData = async () => {
   try {
-    console.log('🚀 Using GitHub GraphQL API to get real contribution data...');
-    
     const query = `
       query {
         viewer {
@@ -67,8 +65,6 @@ export const getContributionData = async () => {
         }
       }
     `;
-
-    console.log('🔑 Using token:', GITHUB_TOKEN ? `${GITHUB_TOKEN.substring(0, 10)}...` : 'NO TOKEN');
     
     const response = await fetch('https://api.github.com/graphql', {
       method: 'POST',
@@ -79,32 +75,19 @@ export const getContributionData = async () => {
       body: JSON.stringify({ query }),
     });
 
-    console.log('📡 Response status:', response.status, response.statusText);
-
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ API Error Response:', errorText);
       throw new Error(`GraphQL API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('📊 Raw API Response:', JSON.stringify(data, null, 2));
     
     if (data.errors) {
-      console.error('❌ GraphQL Errors:', data.errors);
       throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
     }
 
     const contributionCalendar = data.data.viewer.contributionsCollection.contributionCalendar;
     const totalContributions = contributionCalendar.totalContributions;
-    
-    console.log('✅ Successfully fetched contribution data from GraphQL API!');
-    console.log('📊 Total contributions:', totalContributions);
-    console.log('📅 Total weeks:', contributionCalendar.weeks.length);
-    
-    // Debug: Log some sample data
-    console.log('🔍 Sample week data:', contributionCalendar.weeks[0]);
-    console.log('🔍 Sample day data:', contributionCalendar.weeks[0]?.contributionDays[0]);
     
     // Process weeks to match GitHub's exact layout
     const contributionData = [];
@@ -122,11 +105,6 @@ export const getContributionData = async () => {
             weekIndex: weekIndex,
             dayIndex: dayIndex
           });
-          
-          // Log first few days for debugging
-          if (weekIndex < 3 && dayIndex < 7) {
-            console.log(`📅 Week ${weekIndex}, Day ${dayIndex}: ${day.date} (${new Date(day.date).toLocaleDateString()}) - ${day.contributionCount} contributions, color: ${day.color}`);
-          }
         }
       });
     });
@@ -134,22 +112,11 @@ export const getContributionData = async () => {
     // Sort by date to ensure proper chronological order
     contributionData.sort((a, b) => new Date(a.date) - new Date(b.date));
     
-    console.log('🔍 First 10 days:', contributionData.slice(0, 10));
-    console.log('🔍 Last 10 days:', contributionData.slice(-10));
-    console.log('🔍 Total days processed:', contributionData.length);
-    
-    console.log('📅 Total days with data:', contributionData.length);
-    console.log('🎯 Days with contributions > 0:', contributionData.filter(d => d.count > 0).length);
-    
     // Check if we got meaningful data
     if (contributionData.length === 0 || totalContributions === 0) {
-      console.warn('⚠️ No contribution data received from GraphQL API');
-      console.log('🔍 Full API response:', JSON.stringify(data, null, 2));
       throw new Error('No contribution data available');
     }
-    
-    console.log('🎯 This should now match your GitHub profile exactly!');
-    
+
     return contributionData;
   } catch (error) {
     console.error('Error fetching contribution data from GraphQL:', error);
