@@ -48,6 +48,7 @@ const About = () => {
               'Probability & Statistics II',
               'Linear Algebra',
               'Discrete Mathematics',
+              'Intro to Embedded Systems',
             ].map((course) => (
               <li
                 key={course}
