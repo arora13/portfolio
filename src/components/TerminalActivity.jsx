@@ -81,16 +81,16 @@ const TerminalActivity = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-lg p-4 font-mono text-sm"
+      className="bg-gradient-to-br from-white to-blue-50 rounded-lg border-2 border-blue-200 shadow-lg shadow-blue-100 p-4 font-mono text-sm"
     >
       {/* Terminal Header */}
-      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-700">
+      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-blue-200">
         <div className="flex gap-1">
           <div className="w-3 h-3 bg-red-500 rounded-full"></div>
           <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
         </div>
-        <span className="text-gray-400 text-xs">Terminal - arjun</span>
+        <span className="text-blue-700 text-xs">Terminal - arjun</span>
       </div>
 
       {/* Terminal Content */}
@@ -103,8 +103,8 @@ const TerminalActivity = () => {
             transition={{ delay: index * 0.1 }}
             className="space-y-1"
           >
-            <div className="text-cyan-400">{line.output}</div>
-            <div className="text-gray-300 whitespace-pre-line ml-2">{line.result}</div>
+            <div className="text-blue-700">{line.output}</div>
+            <div className="text-slate-700 whitespace-pre-line ml-2">{line.result}</div>
           </motion.div>
         ))}
         
@@ -112,27 +112,27 @@ const TerminalActivity = () => {
         <motion.div
           animate={{ opacity: [1, 0, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
-          className="text-cyan-400"
+          className="text-blue-700"
         >
-          arjun:~$ <span className="bg-cyan-400 text-cyan-400">█</span>
+          arjun:~$ <span className="bg-blue-500 text-blue-500">█</span>
         </motion.div>
       </div>
 
       {/* Quick Stats */}
-      <div className="mt-4 pt-4 border-t border-gray-700 grid grid-cols-2 gap-4 text-xs">
-        <div className="flex items-center gap-2 text-cyan-400">
+      <div className="mt-4 pt-4 border-t border-blue-200 grid grid-cols-2 gap-4 text-xs">
+        <div className="flex items-center gap-2 text-blue-700">
           <FaClock className="text-xs" />
           <span>{currentTime.toLocaleTimeString()}</span>
         </div>
-        <div className="flex items-center gap-2 text-green-400">
+        <div className="flex items-center gap-2 text-sky-600">
           <FaCloud className="text-xs" />
           <span>{weatherLoading ? 'Loading...' : `${Math.round(weather?.main?.temp || 22)}°C`}</span>
         </div>
-        <div className="flex items-center gap-2 text-yellow-400">
+        <div className="flex items-center gap-2 text-indigo-600">
           <FaGlobe className="text-xs" />
           <span>{weather?.name || 'San Francisco'}</span>
         </div>
-        <div className="flex items-center gap-2 text-purple-400">
+        <div className="flex items-center gap-2 text-blue-500">
           <FaUser className="text-xs" />
           <span>arjun</span>
         </div>

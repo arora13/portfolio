@@ -43,20 +43,20 @@ const GitHubContributionGraph = () => {
     }
     
     // Fallback to count-based colors
-    if (count === 0) return { backgroundColor: '#374151' }; // gray-700
-    if (count === 1) return { backgroundColor: '#4ade80' }; // green-400
-    if (count === 2) return { backgroundColor: '#22c55e' }; // green-500
-    if (count === 3) return { backgroundColor: '#16a34a' }; // green-600
-    return { backgroundColor: '#15803d' }; // green-700
+    if (count === 0) return { backgroundColor: '#dbeafe' };
+    if (count === 1) return { backgroundColor: '#93c5fd' };
+    if (count === 2) return { backgroundColor: '#60a5fa' };
+    if (count === 3) return { backgroundColor: '#3b82f6' };
+    return { backgroundColor: '#1d4ed8' };
   };
   if (loading) {
     return (
-      <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md border-2 border-blue-200">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-700 rounded mb-4"></div>
+          <div className="h-6 bg-blue-200 rounded mb-4"></div>
           <div className="grid gap-1" style={{ gridTemplateColumns: 'repeat(53, 1fr)' }}>
             {Array.from({ length: 371 }).map((_, i) => (
-              <div key={i} className="aspect-square bg-gray-700 rounded-sm" style={{ minWidth: '10px', minHeight: '10px' }}></div>
+              <div key={i} className="aspect-square bg-blue-100 rounded-sm" style={{ minWidth: '10px', minHeight: '10px' }}></div>
             ))}
           </div>
         </div>
@@ -69,11 +69,11 @@ const GitHubContributionGraph = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-[#1e1e1e] px-3 py-2 rounded-lg shadow-md inline-block"
+        className="bg-white px-3 py-2 rounded-lg shadow-md border-2 border-blue-200 inline-block"
       >
         <div className="flex items-center gap-2">
-          <FaGithub className="text-sm text-indigo-400" />
-          <span className="text-xs text-gray-300">67 contributions</span>
+          <FaGithub className="text-sm text-blue-700" />
+          <span className="text-xs text-slate-600">67 contributions</span>
         </div>
       </motion.div>
     );
@@ -83,11 +83,11 @@ const GitHubContributionGraph = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#1e1e1e] px-3 py-2 rounded-lg shadow-md inline-block"
+      className="bg-white px-3 py-2 rounded-lg shadow-md border-2 border-blue-200 inline-block"
     >
       <div className="flex items-center gap-2">
-        <FaGithub className="text-sm text-indigo-400" />
-        <span className="text-xs text-gray-300">{totalContributions} contributions</span>
+        <FaGithub className="text-sm text-blue-700" />
+        <span className="text-xs text-slate-600">{totalContributions} contributions</span>
       </div>
     </motion.div>
   );
