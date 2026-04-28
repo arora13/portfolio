@@ -7,8 +7,9 @@ const TAB_OPTIONS = ['Software', 'Embedded Systems', 'More'];
 
 const SOFTWARE_PROJECTS = [
   {
-    name: 'AlgoFlow',
-    description: 'Educational platform for learning algorithms',
+    name: 'Algo Spark',
+    description: 'Educational platform for learning algorithms visually — interactive flows, practice, and explanations.',
+    github: 'https://github.com/arora13/algo-spark-flow',
   },
   {
     name: 'NextSwing AI',
@@ -118,9 +119,22 @@ const Projects = () => {
                   <div>
                     <h3 className="text-xl sm:text-2xl font-bold text-blue-800 mb-2">{project.name}</h3>
                     <p className="text-slate-600">{project.description}</p>
-                    <span className="inline-block mt-2 text-blue-700 text-sm font-semibold">Coming soon</span>
                   </div>
-                  <span className="text-blue-400 text-sm shrink-0">Coming soon</span>
+                  <div className="shrink-0 flex items-start">
+                    {project.github ? (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-lg border-[2px] border-slate-900 bg-white px-3 py-2 text-sm font-semibold text-blue-700 shadow-[2px_2px_0_#93c5fd] hover:bg-blue-50 transition-colors"
+                      >
+                        <FaGithub className="text-lg" aria-hidden />
+                        GitHub
+                      </a>
+                    ) : (
+                      <span className="text-blue-600 text-sm font-semibold">Coming soon</span>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}

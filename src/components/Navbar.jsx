@@ -49,15 +49,15 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <motion.a
-          href="/resume.pdf"
-          download
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.97 }}
-          className="text-blue-700 border border-blue-400/80 bg-white px-3 py-1.5 sm:px-4 rounded-lg text-xs sm:text-sm hover:bg-blue-100 transition-colors shrink-0"
+        <span
+          className="inline-flex items-center gap-1.5 shrink-0 rounded-lg border-[2px] border-slate-900 bg-amber-100 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-bold text-slate-900 shadow-[2px_2px_0_#d97706] cursor-default"
+          title="Resume is not available yet — under construction"
         >
-          Resume
-        </motion.a>
+          <span className="whitespace-nowrap">Resume</span>
+          <span className="font-black uppercase tracking-wide text-[9px] text-amber-900/90 sm:text-[10px]">
+            Soon
+          </span>
+        </span>
       </div>
     </motion.nav>
   );

@@ -32,7 +32,7 @@ Background:
 - Relevant coursework: Data Structures, Probability & Statistics I & II, Linear Algebra, Discrete Mathematics, Intro to Embedded Systems
 
 Projects you have built or are building:
-- AlgoFlow: Educational platform for learning algorithms visually
+- Algo Spark (algo-spark-flow): Educational platform for learning algorithms visually; code at https://github.com/arora13/algo-spark-flow
 - NextSwing AI: Golf swing analysis app using computer vision and ML
 - RateMySchedule: Social platform for rating and sharing class schedules
 - NBA ML Model: Prediction model for basketball game outcomes and top scorers
