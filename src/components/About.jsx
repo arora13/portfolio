@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { FaUniversity, FaLaptopCode } from 'react-icons/fa';
+import { FaUniversity, FaLaptopCode, FaMicrochip } from 'react-icons/fa';
 
 const About = () => {
   return (
@@ -96,6 +96,17 @@ const About = () => {
             >
               <h4>Santa Clara University (Sophomore–Senior)</h4>
               <p>Currently pursuing a CS degree with a Mathematics minor, focused on software engineering and startup projects.</p>
+            </VerticalTimelineElement>
+
+            <VerticalTimelineElement
+              contentStyle={{ background: '#ffffff', color: '#1e293b', border: '2px solid #bfdbfe', boxShadow: '0 8px 20px rgba(37, 99, 235, 0.1)' }}
+              contentArrowStyle={{ borderRight: '7px solid #ffffff' }}
+              date="2025–Present"
+              iconStyle={{ background: '#0ea5e9', color: '#fff' }}
+              icon={<FaMicrochip />}
+            >
+              <h4>IoT Software Engineering Research</h4>
+              <p>Researcher at Santa Clara University, working on IoT-focused software engineering — embedded systems, sensors, and the software stack around connected devices in a research lab setting.</p>
             </VerticalTimelineElement>
 
           </VerticalTimeline>

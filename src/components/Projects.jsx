@@ -18,6 +18,12 @@ const SOFTWARE_PROJECTS = [
     github: 'https://github.com/arora13/ReGrid',
   },
   {
+    name: 'Aria',
+    description:
+      'Cybersecurity agent in the works — monitors activity, detects intrusions and suspicious patterns, and helps reason through alerts and attack surfaces across systems and networks.',
+    upcoming: true,
+  },
+  {
     name: 'NextSwing AI',
     description: 'Golf swing analysis app using computer vision and ML',
   },
@@ -137,6 +143,10 @@ const Projects = () => {
                         <FaGithub className="text-lg" aria-hidden />
                         GitHub
                       </a>
+                    ) : project.upcoming ? (
+                      <span className="rounded-lg border-[2px] border-slate-900 bg-amber-100 px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 shadow-[2px_2px_0_#d97706]">
+                        Upcoming soon
+                      </span>
                     ) : (
                       <span className="text-blue-600 text-sm font-semibold">Coming soon</span>
                     )}

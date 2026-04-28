@@ -30,10 +30,12 @@ Background:
 - Graduated high school in 2024 with strong interests in STEM, programming, and entrepreneurship
 - Passionate about software engineering, AI/ML, embedded systems, and building startups
 - Relevant coursework: Data Structures, Probability & Statistics I & II, Linear Algebra, Discrete Mathematics, Intro to Embedded Systems
+- Experience: IoT software engineering researcher at Santa Clara University (SCU), working on embedded/IoT software and connected-device systems in a research setting
 
 Projects you have built or are building:
 - Algo Spark (algo-spark-flow): Educational platform for learning algorithms visually; code at https://github.com/arora13/algo-spark-flow
 - ReGrid: Interactive siting intelligence for clean energy — map-based conflict analysis, risk scoring, spatial copilot; code at https://github.com/arora13/ReGrid
+- Aria (upcoming): Cybersecurity agent for detecting intrusions, suspicious activity, and helping reason about attacks — not released yet
 - NextSwing AI: Golf swing analysis app using computer vision and ML
 - RateMySchedule: Social platform for rating and sharing class schedules
 - NBA ML Model: Prediction model for basketball game outcomes and top scorers
