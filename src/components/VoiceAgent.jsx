@@ -23,11 +23,14 @@ const VoiceAgent = () => {
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
   const sendMessageRef = useRef(null);
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isProcessing]);
+    if (!isOpen) return;
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  }, [messages, isProcessing, isOpen]);
 
   const stopSpeaking = useCallback(() => {
     if (audioRef.current) {
@@ -215,8 +218,7 @@ const VoiceAgent = () => {
               )}
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
+            <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-3 space-y-2.5">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div
@@ -242,8 +244,6 @@ const VoiceAgent = () => {
               )}
 
               {error && <p className="text-xs text-red-500 text-center px-2">{error}</p>}
-
-              <div ref={messagesEndRef} />
             </div>
 
             {/* Live transcript preview */}

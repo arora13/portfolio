@@ -29,10 +29,12 @@ const ConversationSection = () => {
   const recognitionRef = useRef(null);
   const audioRef = useRef(null);
   const sendMessageRef = useRef(null);
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
   }, [messages, isProcessing]);
 
   const stopSpeaking = useCallback(() => {
@@ -223,8 +225,7 @@ const ConversationSection = () => {
             )}
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
@@ -250,7 +251,6 @@ const ConversationSection = () => {
             )}
 
             {error && <p className="text-xs text-red-500 text-center">{error}</p>}
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Transcript preview */}
