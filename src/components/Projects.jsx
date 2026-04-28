@@ -12,6 +12,12 @@ const SOFTWARE_PROJECTS = [
     github: 'https://github.com/arora13/algo-spark-flow',
   },
   {
+    name: 'ReGrid',
+    description:
+      'Spatial siting intelligence for clean energy — map-based conflict analysis, risk scoring, optimization, and a spatial copilot (Mapbox, React, FastAPI + PostGIS).',
+    github: 'https://github.com/arora13/ReGrid',
+  },
+  {
     name: 'NextSwing AI',
     description: 'Golf swing analysis app using computer vision and ML',
   },
