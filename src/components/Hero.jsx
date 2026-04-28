@@ -11,9 +11,8 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="comic-burst relative w-full min-h-screen text-slate-900 flex flex-col justify-center overflow-hidden px-6 sm:px-10 scroll-mt-20"
+      className="relative w-full min-h-screen text-slate-900 flex flex-col justify-center overflow-hidden px-6 sm:px-10 scroll-mt-20 bg-gradient-to-b from-blue-50 via-sky-50 to-cyan-50"
     >
-      <div className="comic-dot-bg absolute inset-0 z-0 opacity-80" />
       <div className="absolute top-6 left-6 z-10 inline-flex items-center rounded-md border-[3px] border-slate-900 bg-white px-4 py-1 text-xs font-black uppercase tracking-wider text-blue-700">
         Supercharged Portfolio
       </div>

@@ -26,18 +26,6 @@ section[id] {
   background-size: 14px 14px;
 }
 
-.comic-burst {
-  background:
-    linear-gradient(150deg, rgba(191, 219, 254, 0.9), rgba(125, 211, 252, 0.65)),
-    repeating-linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.45) 0px,
-      rgba(255, 255, 255, 0.45) 14px,
-      rgba(147, 197, 253, 0.12) 14px,
-      rgba(147, 197, 253, 0.12) 36px
-    );
-}
-
 .comic-card {
   border: 3px solid #0f172a;
   border-radius: 1rem;
