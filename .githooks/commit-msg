@@ -1,6 +1,6 @@
 #!/bin/sh
-# Remove Cursor "Made-with:" trailer so commit messages stay clean on GitHub.
+# Drop IDE/agent footers from commit messages (local policy).
 msg_file=$1
 test -f "$msg_file" || exit 0
-grep -v '^Made-with:' "$msg_file" >"${msg_file}.tmp" && mv "${msg_file}.tmp" "$msg_file"
+grep -vE '^Made-with:|^Co-authored-by:.*[Cc]ursor' "$msg_file" >"${msg_file}.tmp" && mv "${msg_file}.tmp" "$msg_file"
 exit 0
