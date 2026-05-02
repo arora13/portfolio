@@ -175,7 +175,7 @@ const VoiceAgent = () => {
       {/* Floating trigger button */}
       <motion.button
         onClick={() => setIsOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-blue-600 text-white border-[3px] border-slate-900 shadow-[4px_4px_0_#1e293b] flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-[9990] w-14 h-14 rounded-full bg-[var(--accent)] text-[var(--bg)] border border-[var(--border)] shadow-lg flex items-center justify-center"
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
         aria-label={isOpen ? 'Close voice assistant' : 'Open voice assistant'}
@@ -201,17 +201,17 @@ const VoiceAgent = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
             transition={{ duration: 0.18 }}
-            className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white border-[3px] border-slate-900 rounded-xl shadow-[6px_6px_0_#2563eb] flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-[9990] w-80 sm:w-96 bg-[var(--panel)] border border-[var(--border)] rounded-xl shadow-2xl flex flex-col overflow-hidden"
             style={{ maxHeight: '72vh' }}
           >
             {/* Header */}
-            <div className="bg-blue-600 px-4 py-3 flex items-center gap-2 border-b-[3px] border-slate-900 shrink-0">
-              <FaRobot className="text-white shrink-0" size={16} />
-              <span className="text-white font-bold text-sm">Chat with Arjun&apos;s AI</span>
+            <div className="bg-[var(--bg-elevated)] px-4 py-3 flex items-center gap-2 border-b border-[var(--border)] shrink-0">
+              <FaRobot className="text-[var(--accent)] shrink-0" size={16} />
+              <span className="text-[var(--fg)] font-bold text-sm font-mono uppercase tracking-wide">Chat — AI</span>
               {isSpeaking && (
                 <button
                   onClick={stopSpeaking}
-                  className="ml-auto text-white/80 hover:text-white text-xs underline"
+                  className="ml-auto text-[var(--muted)] hover:text-[var(--accent)] text-xs underline"
                 >
                   Stop
                 </button>
@@ -222,10 +222,10 @@ const VoiceAgent = () => {
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div
-                    className={`max-w-[85%] px-3 py-2 rounded-lg text-sm border-[2px] border-slate-900 leading-relaxed ${
+                    className={`max-w-[85%] px-3 py-2 rounded-md text-sm border border-[var(--border)] leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-blue-600 text-white shadow-[2px_2px_0_#1e3a5f]'
-                        : 'bg-white text-slate-800 shadow-[2px_2px_0_#93c5fd]'
+                        ? 'bg-[var(--accent)] text-[var(--bg)]'
+                        : 'bg-[var(--bg)] text-[var(--fg)]'
                     }`}
                   >
                     {msg.content}
@@ -235,7 +235,7 @@ const VoiceAgent = () => {
 
               {isProcessing && (
                 <div className="flex justify-start">
-                  <div className="px-3 py-2 rounded-lg text-sm border-[2px] border-slate-900 bg-white text-slate-400 shadow-[2px_2px_0_#93c5fd] flex gap-1 items-center">
+                  <div className="px-3 py-2 rounded-md text-sm border border-[var(--border)] bg-[var(--bg)] text-[var(--muted)] flex gap-1 items-center">
                     <span className="animate-pulse">●</span>
                     <span className="animate-pulse delay-150">●</span>
                     <span className="animate-pulse delay-300">●</span>
@@ -248,13 +248,13 @@ const VoiceAgent = () => {
 
             {/* Live transcript preview */}
             {transcript && (
-              <div className="px-3 py-1.5 bg-blue-50 border-t border-blue-100 text-xs text-blue-700 italic shrink-0">
+              <div className="px-3 py-1.5 bg-[var(--bg-elevated)] border-t border-[var(--border)] text-xs text-[var(--muted)] italic shrink-0">
                 &ldquo;{transcript}&rdquo;
               </div>
             )}
 
             {/* Controls */}
-            <div className="p-3 border-t-[3px] border-slate-900 bg-gray-50 shrink-0 space-y-2">
+            <div className="p-3 border-t border-[var(--border)] bg-[var(--bg-elevated)] shrink-0 space-y-2">
               {/* Status + mic */}
               <div className="flex items-center gap-3">
                 {speechSupported && (
@@ -262,17 +262,15 @@ const VoiceAgent = () => {
                     onClick={toggleListening}
                     disabled={isProcessing}
                     whileTap={{ scale: 0.93 }}
-                    className={`w-11 h-11 shrink-0 rounded-full border-[3px] border-slate-900 flex items-center justify-center transition-colors disabled:opacity-40 ${
-                      isListening
-                        ? 'bg-red-500 text-white shadow-[3px_3px_0_#7f1d1d] animate-pulse'
-                        : 'bg-blue-600 text-white shadow-[3px_3px_0_#1e293b]'
+                    className={`w-11 h-11 shrink-0 rounded-full border border-[var(--border)] flex items-center justify-center transition-colors disabled:opacity-40 ${
+                      isListening ? 'bg-red-600 text-white animate-pulse' : 'bg-[var(--accent)] text-[var(--bg)]'
                     }`}
                     aria-label={isListening ? 'Stop recording' : 'Start recording'}
                   >
                     {isListening ? <FaStop size={14} /> : <FaMicrophone size={16} />}
                   </motion.button>
                 )}
-                <p className="text-xs text-slate-500 flex-1">{statusLabel}</p>
+                <p className="text-xs text-[var(--muted)] flex-1">{statusLabel}</p>
               </div>
 
               {/* Text input */}
@@ -283,12 +281,12 @@ const VoiceAgent = () => {
                   onChange={(e) => setTextInput(e.target.value)}
                   placeholder="Or type a message…"
                   disabled={isProcessing}
-                  className="flex-1 text-xs px-3 py-2 rounded-lg border-[2px] border-slate-900 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 disabled:opacity-50"
+                  className="flex-1 text-xs px-3 py-2 rounded-md border border-[var(--border)] bg-[var(--bg)] text-[var(--fg)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--accent)] disabled:opacity-50"
                 />
                 <button
                   type="submit"
                   disabled={isProcessing || !textInput.trim()}
-                  className="w-9 h-9 rounded-lg border-[2px] border-slate-900 bg-blue-600 text-white flex items-center justify-center shadow-[2px_2px_0_#1e293b] disabled:opacity-40"
+                  className="w-9 h-9 rounded-md border border-[var(--border)] bg-[var(--accent)] text-[var(--bg)] flex items-center justify-center disabled:opacity-40"
                   aria-label="Send message"
                 >
                   <FaPaperPlane size={12} />

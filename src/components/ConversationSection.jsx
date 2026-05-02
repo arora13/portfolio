@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { FaRobot, FaHardHat } from 'react-icons/fa';
+import BinaryBackdrop from './BinaryBackdrop';
 
 const EXAMPLE_QUESTIONS = [
   'What are you currently building?',
@@ -12,36 +13,40 @@ const ConversationSection = () => {
   return (
     <section
       id="conversation"
-      className="comic-dot-bg relative w-full bg-gradient-to-b from-blue-50 via-white to-cyan-50 text-slate-900 px-6 pt-20 pb-24 overflow-hidden"
+      className="relative border-t border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--fg)] px-6 py-20 sm:py-28 overflow-hidden"
     >
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <BinaryBackdrop className="opacity-35" />
 
+      <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
         <motion.div
-          initial={{ opacity: 0, x: -24 }}
+          initial={{ opacity: 0, x: -16 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="space-y-6"
         >
-          <span className="inline-flex items-center gap-2 rounded-md border-[3px] border-slate-900 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-700 shadow-[3px_3px_0_#2563eb]">
+          <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-[var(--accent)] inline-flex items-center gap-2 border border-[var(--border)] px-3 py-1.5 bg-[var(--bg)]">
             <FaRobot size={11} /> AI-Powered
           </span>
 
-          <h2 className="text-4xl sm:text-5xl font-black leading-tight text-blue-800 [text-shadow:2px_2px_0_#bfdbfe]">
-            Have a conversation<br />with Arjun
+          <h2 className="font-display text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
+            Have a conversation
+            <br />
+            with Arjun
           </h2>
 
-          <p className="text-lg text-slate-600 leading-relaxed max-w-md">
-            Soon you&apos;ll be able to ask anything here — projects, stack, background, goals — through a voice-and-chat assistant. It&apos;s still being wired up; check the note on the right.
+          <p className="text-[var(--muted)] text-sm sm:text-base leading-relaxed max-w-md">
+            Soon you&apos;ll be able to ask anything here — projects, stack, background, goals — through a voice-and-chat
+            assistant. It&apos;s still being wired up; check the note on the right.
           </p>
 
           <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Try asking…</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">Try asking…</p>
             <div className="flex flex-wrap gap-2">
               {EXAMPLE_QUESTIONS.map((q) => (
                 <span
                   key={q}
-                  className="rounded-lg border-[2px] border-slate-900 bg-white px-3 py-1.5 text-sm text-slate-600 shadow-[2px_2px_0_#93c5fd]"
+                  className="border border-[var(--border)] bg-[var(--bg)] px-3 py-1.5 text-xs text-[var(--muted)]"
                 >
                   {q}
                 </span>
@@ -51,29 +56,30 @@ const ConversationSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 24 }}
+          initial={{ opacity: 0, x: 16 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="comic-card relative overflow-hidden bg-amber-50 border-[3px] border-slate-900 p-8 sm:p-10 flex flex-col items-center text-center gap-4 shadow-[6px_6px_0_#d97706]"
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="border border-[var(--border)] bg-[var(--panel)] p-8 sm:p-10 flex flex-col items-center text-center gap-4 relative overflow-hidden"
         >
           <div
-            className="absolute inset-x-0 top-0 h-2 opacity-90"
+            className="absolute inset-x-0 top-0 h-1 opacity-90"
             style={{
               background:
-                'repeating-linear-gradient(135deg, #fbbf24 0px, #fbbf24 12px, #1e293b 12px, #1e293b 24px)',
+                'repeating-linear-gradient(135deg, var(--accent) 0px, var(--accent) 10px, var(--border) 10px, var(--border) 22px)',
             }}
             aria-hidden
           />
-          <span className="mt-2 inline-flex items-center gap-2 rounded-md border-[3px] border-slate-900 bg-amber-400 px-3 py-1.5 text-xs font-black uppercase tracking-wider text-slate-900 shadow-[3px_3px_0_#1e293b]">
-            <FaHardHat size={12} /> Under construction
+          <span className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] border border-[var(--accent)] text-[var(--accent)] px-3 py-1.5 inline-flex items-center gap-2">
+            <FaHardHat size={11} /> Under construction
           </span>
-          <div className="w-16 h-16 rounded-full bg-amber-500 border-[3px] border-slate-900 flex items-center justify-center text-slate-900 shadow-[4px_4px_0_#1e293b]">
-            <FaRobot size={26} />
+          <div className="w-14 h-14 rounded-full border border-[var(--border)] bg-[var(--bg)] flex items-center justify-center text-[var(--accent)]">
+            <FaRobot size={24} />
           </div>
-          <h3 className="text-xl sm:text-2xl font-black text-slate-900">Voice assistant</h3>
-          <p className="text-slate-700 text-sm sm:text-base leading-relaxed max-w-sm">
-            The <strong>blue robot</strong> in the bottom-right is a preview: voice, chat, and backend may not work reliably yet. Thanks for bearing with me while I finish it.
+          <h3 className="font-display text-xl font-semibold">Voice assistant</h3>
+          <p className="text-[var(--muted)] text-sm leading-relaxed max-w-sm">
+            The <strong className="text-[var(--fg)]">floating robot</strong> in the bottom-right is a preview: voice,
+            chat, and backend may not work reliably yet. Thanks for bearing with me while I finish it.
           </p>
         </motion.div>
       </div>

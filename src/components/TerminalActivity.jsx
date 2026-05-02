@@ -1,139 +1,149 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { FaTerminal, FaCloud, FaClock, FaGlobe, FaUser } from 'react-icons/fa';
+import { FaCloud, FaClock, FaGlobe, FaUser } from 'react-icons/fa';
+
+const STATIC_COMMANDS = [
+  { cmd: 'whoami', output: 'arjun:~$ whoami', result: 'arjun' },
+  { cmd: 'pwd', output: 'arjun:~$ pwd', result: '/home/arjun' },
+  {
+    cmd: 'ls -la',
+    output: 'arjun:~$ ls -la',
+    result:
+      'total 67\n-rw-r--r-- 1 arjun arjun 1234 Jan 15 10:30 projects/\n-rw-r--r-- 1 arjun arjun 5678 Jan 15 10:25 skills/\n-rw-r--r-- 1 arjun arjun 9012 Jan 15 10:20 experience/',
+  },
+  {
+    cmd: 'git status',
+    output: 'arjun:~$ git status',
+    result: 'On branch main\nYour branch is up to date with origin/main.\n\nnothing to commit, working tree clean',
+  },
+  {
+    cmd: 'npm run dev',
+    output: 'arjun:~$ npm run dev',
+    result: '> port@0.0.0 dev\n> vite\n\n  VITE v6.3.5  ready\n  ➜  Local:   http://localhost:5173/',
+  },
+];
 
 const TerminalActivity = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [weather, setWeather] = useState(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [terminalLines, setTerminalLines] = useState([]);
-  const [currentLine, setCurrentLine] = useState(0);
 
-  // Update time every second
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Get weather data
   useEffect(() => {
     const getWeather = async () => {
       try {
-        // Using a free weather API (you can replace with your preferred service)
-        const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=San Francisco&appid=demo&units=metric');
-        if (response.ok) {
-          const data = await response.json();
-          setWeather(data);
-        } else {
-          // Fallback weather data
+        const response = await fetch(
+          'https://api.openweathermap.org/data/2.5/weather?q=San Francisco&appid=demo&units=metric'
+        );
+        if (response.ok) setWeather(await response.json());
+        else {
           setWeather({
             main: { temp: 22 },
-            weather: [{ description: 'sunny', main: 'Clear' }],
-            name: 'San Francisco'
+            weather: [{ description: 'clear', main: 'Clear' }],
+            name: 'San Francisco',
           });
         }
-      } catch (error) {
-        // Fallback weather data
+      } catch {
         setWeather({
           main: { temp: 22 },
-          weather: [{ description: 'sunny', main: 'Clear' }],
-          name: 'San Francisco'
+          weather: [{ description: 'clear', main: 'Clear' }],
+          name: 'San Francisco',
         });
       }
       setWeatherLoading(false);
     };
-
     getWeather();
   }, []);
 
-  // Terminal commands to display
-  const commands = [
-    { cmd: 'whoami', output: 'arjun:~$ whoami', result: 'arjun' },
-    { cmd: 'date', output: 'arjun:~$ date', result: currentTime.toLocaleString() },
-    { cmd: 'weather', output: 'arjun:~$ weather', result: weatherLoading ? 'Loading...' : `${Math.round(weather?.main?.temp || 22)}°C, ${weather?.weather?.[0]?.description || 'sunny'} in ${weather?.name || 'San Francisco'}` },
-    { cmd: 'pwd', output: 'arjun:~$ pwd', result: '/home/arjun' },
-    { cmd: 'ls -la', output: 'arjun:~$ ls -la', result: 'total 67\n-rw-r--r-- 1 arjun arjun 1234 Jan 15 10:30 projects/\n-rw-r--r-- 1 arjun arjun 5678 Jan 15 10:25 skills/\n-rw-r--r-- 1 arjun arjun 9012 Jan 15 10:20 experience/' },
-    { cmd: 'git status', output: 'arjun:~$ git status', result: 'On branch main\nYour branch is up to date with origin/main.\n\nnothing to commit, working tree clean' },
-    { cmd: 'npm run dev', output: 'arjun:~$ npm run dev', result: '> port@0.0.0 dev\n> vite\n\n  VITE v6.3.5  ready in 251 ms\n  ➜  Local:   http://localhost:5174/' }
-  ];
-
-  // Animate terminal lines
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (currentLine < commands.length) {
-        setTerminalLines(prev => [...prev, commands[currentLine]]);
-        setCurrentLine(prev => prev + 1);
+    let i = 0;
+    let paused = false;
+    const tick = () => {
+      if (paused) return;
+      if (i < STATIC_COMMANDS.length) {
+        setTerminalLines((prev) => [...prev, STATIC_COMMANDS[i]]);
+        i++;
       } else {
-        // Reset after showing all commands
+        paused = true;
         setTimeout(() => {
           setTerminalLines([]);
-          setCurrentLine(0);
-        }, 3000);
+          i = 0;
+          paused = false;
+        }, 2800);
       }
-    }, 2000);
+    };
+    const id = setInterval(tick, 1800);
+    return () => clearInterval(id);
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [currentLine, commands.length]);
+  const weatherLine =
+    weatherLoading || !weather
+      ? 'fetching wx…'
+      : `${Math.round(weather.main?.temp ?? 22)}°C, ${weather.weather?.[0]?.description ?? 'clear'} — ${weather.name ?? 'SF'}`;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-white to-blue-50 rounded-lg border-2 border-blue-200 shadow-lg shadow-blue-100 p-4 font-mono text-sm"
+      className="border border-[var(--border)] bg-[var(--panel)] p-4 sm:p-5 font-mono text-xs sm:text-sm text-[var(--fg)]"
     >
-      {/* Terminal Header */}
-      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-blue-200">
+      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--border)]">
         <div className="flex gap-1">
-          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/90" />
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400/90" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/90" />
         </div>
-        <span className="text-blue-700 text-xs">Terminal - arjun</span>
+        <span className="text-[var(--muted)] text-[10px] uppercase tracking-widest">Terminal — arjun</span>
       </div>
 
-      {/* Terminal Content */}
-      <div className="space-y-1 min-h-[200px]">
+      <div className="space-y-1 min-h-[180px] text-[var(--muted)]">
+        <div className="text-[var(--accent)] mb-2">
+          arjun:~$ weather<span className="text-[var(--muted)]"> — {weatherLine}</span>
+        </div>
+        <div className="text-[var(--muted)] text-[10px] mb-3">
+          date — {currentTime.toLocaleString()}
+        </div>
         {terminalLines.map((line, index) => (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
+            key={`${line.cmd}-${index}`}
+            initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="space-y-1"
+            className="space-y-1 mb-2"
           >
-            <div className="text-blue-700">{line.output}</div>
-            <div className="text-slate-700 whitespace-pre-line ml-2">{line.result}</div>
+            <div className="text-[var(--accent)]">{line.output}</div>
+            <div className="text-[var(--fg)] whitespace-pre-line ml-2 opacity-90">{line.result}</div>
           </motion.div>
         ))}
-        
-        {/* Cursor */}
+
         <motion.div
-          animate={{ opacity: [1, 0, 1] }}
+          animate={{ opacity: [1, 0.35, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
-          className="text-blue-700"
+          className="text-[var(--accent)] pt-1"
         >
-          arjun:~$ <span className="bg-blue-500 text-blue-500">█</span>
+          arjun:~$ <span className="bg-[var(--accent)] text-[var(--bg)] px-px">▍</span>
         </motion.div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="mt-4 pt-4 border-t border-blue-200 grid grid-cols-2 gap-4 text-xs">
-        <div className="flex items-center gap-2 text-blue-700">
-          <FaClock className="text-xs" />
+      <div className="mt-4 pt-4 border-t border-[var(--border)] grid grid-cols-2 gap-3 text-[10px] sm:text-xs text-[var(--muted)]">
+        <div className="flex items-center gap-2">
+          <FaClock />
           <span>{currentTime.toLocaleTimeString()}</span>
         </div>
-        <div className="flex items-center gap-2 text-sky-600">
-          <FaCloud className="text-xs" />
-          <span>{weatherLoading ? 'Loading...' : `${Math.round(weather?.main?.temp || 22)}°C`}</span>
+        <div className="flex items-center gap-2">
+          <FaCloud />
+          <span>{weatherLoading ? '…' : `${Math.round(weather?.main?.temp || 22)}°C`}</span>
         </div>
-        <div className="flex items-center gap-2 text-indigo-600">
-          <FaGlobe className="text-xs" />
+        <div className="flex items-center gap-2">
+          <FaGlobe />
           <span>{weather?.name || 'San Francisco'}</span>
         </div>
-        <div className="flex items-center gap-2 text-blue-500">
-          <FaUser className="text-xs" />
+        <div className="flex items-center gap-2">
+          <FaUser />
           <span>arjun</span>
         </div>
       </div>
