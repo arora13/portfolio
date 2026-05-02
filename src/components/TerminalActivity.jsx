@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FaCloud, FaClock, FaGlobe, FaUser } from 'react-icons/fa';
 
 const STATIC_COMMANDS = [
@@ -24,10 +24,11 @@ const STATIC_COMMANDS = [
 ];
 
 const TerminalActivity = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(() => new Date());
   const [weather, setWeather] = useState(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [terminalLines, setTerminalLines] = useState([]);
+  const resetTimeoutRef = useRef(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -35,11 +36,13 @@ const TerminalActivity = () => {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     const getWeather = async () => {
       try {
         const response = await fetch(
           'https://api.openweathermap.org/data/2.5/weather?q=San Francisco&appid=demo&units=metric'
         );
+        if (cancelled) return;
         if (response.ok) setWeather(await response.json());
         else {
           setWeather({
@@ -49,36 +52,50 @@ const TerminalActivity = () => {
           });
         }
       } catch {
-        setWeather({
-          main: { temp: 22 },
-          weather: [{ description: 'clear', main: 'Clear' }],
-          name: 'San Francisco',
-        });
+        if (!cancelled) {
+          setWeather({
+            main: { temp: 22 },
+            weather: [{ description: 'clear', main: 'Clear' }],
+            name: 'San Francisco',
+          });
+        }
+      } finally {
+        if (!cancelled) setWeatherLoading(false);
       }
-      setWeatherLoading(false);
     };
     getWeather();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
     let i = 0;
-    let paused = false;
+    let cycling = false;
+
     const tick = () => {
-      if (paused) return;
+      if (cycling) return;
       if (i < STATIC_COMMANDS.length) {
-        setTerminalLines((prev) => [...prev, STATIC_COMMANDS[i]]);
+        const line = STATIC_COMMANDS[i];
+        setTerminalLines((prev) => [...prev, line]);
         i++;
-      } else {
-        paused = true;
-        setTimeout(() => {
-          setTerminalLines([]);
-          i = 0;
-          paused = false;
-        }, 2800);
+        if (i >= STATIC_COMMANDS.length) {
+          cycling = true;
+          resetTimeoutRef.current = window.setTimeout(() => {
+            setTerminalLines([]);
+            i = 0;
+            cycling = false;
+            resetTimeoutRef.current = null;
+          }, 2800);
+        }
       }
     };
-    const id = setInterval(tick, 1800);
-    return () => clearInterval(id);
+
+    const id = window.setInterval(tick, 1800);
+    return () => {
+      clearInterval(id);
+      if (resetTimeoutRef.current) clearTimeout(resetTimeoutRef.current);
+    };
   }, []);
 
   const weatherLine =

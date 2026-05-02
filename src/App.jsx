@@ -8,9 +8,11 @@ import VoiceAgent from "./components/VoiceAgent";
 import StudioCursor from "./components/StudioCursor";
 import ScrollProgress from "./components/ScrollProgress";
 import FilmGrain from "./components/FilmGrain";
+import { ErrorBoundary } from "./components/ErrorBoundary.jsx";
 
 const App = () => {
   return (
+    <ErrorBoundary>
     <>
       <ScrollProgress />
       <FilmGrain />
@@ -23,6 +25,7 @@ const App = () => {
       <Contact />
       <VoiceAgent />
     </>
+    </ErrorBoundary>
   );
 };
 

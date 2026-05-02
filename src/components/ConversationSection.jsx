@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaRobot, FaHardHat } from 'react-icons/fa';
+import { FaRobot } from 'react-icons/fa';
 import BinaryBackdrop from './BinaryBackdrop';
 
 const EXAMPLE_QUESTIONS = [
@@ -26,22 +26,25 @@ const ConversationSection = () => {
           className="space-y-6"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-[var(--accent)] inline-flex items-center gap-2 border border-[var(--border)] px-3 py-1.5 bg-[var(--bg)]">
-            <FaRobot size={11} /> AI-Powered
+            <FaRobot size={11} /> Arjun&apos;s AI · Coming soon
           </span>
 
           <h2 className="font-display text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
-            Have a conversation
+            Talk with Arjun
             <br />
-            with Arjun
+            <span className="text-[var(--muted)]">for real</span>
           </h2>
 
           <p className="text-[var(--muted)] text-sm sm:text-base leading-relaxed max-w-md">
-            Soon you&apos;ll be able to ask anything here — projects, stack, background, goals — through a voice-and-chat
-            assistant. It&apos;s still being wired up; check the note on the right.
+            I&apos;m building <strong className="text-[var(--fg)]">Arjun&apos;s AI</strong> — a{' '}
+            <strong className="text-[var(--fg)]">trained voice agent</strong> so it feels like you&apos;re speaking with me
+            directly: my stories, my projects, and eventually my voice and cadence — not a generic chatbot.
           </p>
 
           <div className="space-y-2">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">Try asking…</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">
+              When it ships, you might ask…
+            </p>
             <div className="flex flex-wrap gap-2">
               {EXAMPLE_QUESTIONS.map((q) => (
                 <span
@@ -70,16 +73,16 @@ const ConversationSection = () => {
             }}
             aria-hidden
           />
-          <span className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] border border-[var(--accent)] text-[var(--accent)] px-3 py-1.5 inline-flex items-center gap-2">
-            <FaHardHat size={11} /> Under construction
+          <span className="mt-3 font-mono text-[10px] uppercase tracking-[0.25em] border border-[var(--accent)] text-[var(--accent)] px-3 py-1.5">
+            Coming soon
           </span>
           <div className="w-14 h-14 rounded-full border border-[var(--border)] bg-[var(--bg)] flex items-center justify-center text-[var(--accent)]">
             <FaRobot size={24} />
           </div>
-          <h3 className="font-display text-xl font-semibold">Voice assistant</h3>
+          <h3 className="font-display text-xl font-semibold">Arjun&apos;s AI</h3>
           <p className="text-[var(--muted)] text-sm leading-relaxed max-w-sm">
-            The <strong className="text-[var(--fg)]">floating robot</strong> in the bottom-right is a preview: voice,
-            chat, and backend may not work reliably yet. Thanks for bearing with me while I finish it.
+            The <strong className="text-[var(--fg)]">robot in the corner</strong> will open this experience once the agent is
+            trained and wired up — voice-first, built to sound and respond like me.
           </p>
         </motion.div>
       </div>

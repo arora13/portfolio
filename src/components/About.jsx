@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { FaGraduationCap, FaLaptopCode, FaMicrochip, FaUniversity } from 'react-icons/fa';
 import BinaryBackdrop from './BinaryBackdrop';
 
-const TIMELINE = [
+const EDUCATION_TIMELINE = [
   {
     date: '2024',
     title: 'Graduated high school',
@@ -21,10 +21,13 @@ const TIMELINE = [
     body: 'Pursuing CS with a Mathematics minor — software engineering, startups, and ambitious builds.',
     Icon: FaUniversity,
   },
+];
+
+const WORK_EXPERIENCE = [
   {
     date: '2025–Present',
     title: 'IoT software engineering research',
-    body: 'Researcher at SCU on IoT-focused software engineering — embedded systems, sensors, and the stack around connected devices.',
+    body: 'Researcher at Santa Clara University on IoT-focused software engineering — embedded systems, sensors, and the software stack around connected devices in a research lab setting.',
     Icon: FaMicrochip,
   },
 ];
@@ -35,8 +38,41 @@ const COURSES = [
   'Probability & Statistics II',
   'Linear Algebra',
   'Discrete Mathematics',
-  'Intro to Embedded Systems',
 ];
+
+function TimelineBlock({ items, title }) {
+  return (
+    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+      <h3 className="font-mono text-xs uppercase tracking-[0.35em] text-[var(--muted)] mb-10">{title}</h3>
+      <div className="space-y-10 sm:space-y-12">
+        {items.map((item, i) => (
+          <motion.div
+            key={item.title}
+            initial={{ opacity: 0, x: -12 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.06 }}
+            className="flex gap-5 sm:gap-6"
+          >
+            <div className="flex flex-col items-center shrink-0">
+              <div className="w-11 h-11 rounded-full border border-[var(--border)] bg-[var(--bg)] flex items-center justify-center text-[var(--accent)]">
+                <item.Icon className="text-sm" aria-hidden />
+              </div>
+              {i < items.length - 1 && (
+                <div className="w-px flex-1 min-h-[3rem] bg-[var(--border)] mt-4" aria-hidden />
+              )}
+            </div>
+            <div className="min-w-0 pt-0.5">
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--accent)] mb-2">{item.date}</p>
+              <h4 className="font-display text-lg sm:text-xl font-semibold mb-2">{item.title}</h4>
+              <p className="text-sm text-[var(--muted)] leading-relaxed">{item.body}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 const About = () => {
   return (
@@ -98,35 +134,11 @@ const About = () => {
           </ul>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-          <h3 className="font-mono text-xs uppercase tracking-[0.35em] text-[var(--muted)] mb-10">Timeline</h3>
-          <div className="space-y-10 sm:space-y-12">
-            {TIMELINE.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="flex gap-5 sm:gap-6"
-              >
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="w-11 h-11 rounded-full border border-[var(--border)] bg-[var(--bg)] flex items-center justify-center text-[var(--accent)]">
-                    <item.Icon className="text-sm" aria-hidden />
-                  </div>
-                  {i < TIMELINE.length - 1 && (
-                    <div className="w-px flex-1 min-h-[3rem] bg-[var(--border)] mt-4" aria-hidden />
-                  )}
-                </div>
-                <div className="min-w-0 pt-0.5">
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--accent)] mb-2">{item.date}</p>
-                  <h4 className="font-display text-lg sm:text-xl font-semibold mb-2">{item.title}</h4>
-                  <p className="text-sm text-[var(--muted)] leading-relaxed">{item.body}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <div className="mb-20">
+          <TimelineBlock items={WORK_EXPERIENCE} title="Work experience" />
+        </div>
+
+        <TimelineBlock items={EDUCATION_TIMELINE} title="Education" />
       </div>
     </section>
   );

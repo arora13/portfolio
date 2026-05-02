@@ -2,11 +2,15 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaMicrophone, FaTimes, FaRobot, FaStop, FaPaperPlane } from 'react-icons/fa';
 
+/** When true: no backend calls — Arjun's AI is marketed as coming soon (trained voice agent). */
+const ARJUNS_AI_COMING_SOON = true;
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: "Hey! I'm Arjun's AI. Ask me anything about his projects, skills, or background!",
+  content:
+    "Hey — Arjun's AI is coming soon. I'm building a trained voice agent so talking here feels like you're on a call with me: my background, projects, and how I actually speak. Chat and mic stay off until that's ready.",
 };
 
 const VoiceAgent = () => {
@@ -41,45 +45,49 @@ const VoiceAgent = () => {
     setIsSpeaking(false);
   }, []);
 
-  const speak = useCallback(async (text) => {
-    stopSpeaking();
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/tts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error('TTS error');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      setIsSpeaking(true);
-      audio.onended = () => {
-        setIsSpeaking(false);
-        URL.revokeObjectURL(url);
-        if (audioRef.current === audio) audioRef.current = null;
-      };
-      audio.onerror = () => {
-        setIsSpeaking(false);
-        URL.revokeObjectURL(url);
-        if (audioRef.current === audio) audioRef.current = null;
-      };
-      await audio.play();
-    } catch {
-      // browser TTS fallback
-      if (!window.speechSynthesis) return;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.05;
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-      window.speechSynthesis.speak(utterance);
-    }
-  }, [stopSpeaking]);
+  const speak = useCallback(
+    async (text) => {
+      if (ARJUNS_AI_COMING_SOON) return;
+      stopSpeaking();
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/tts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error('TTS error');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audioRef.current = audio;
+        setIsSpeaking(true);
+        audio.onended = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(url);
+          if (audioRef.current === audio) audioRef.current = null;
+        };
+        audio.onerror = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(url);
+          if (audioRef.current === audio) audioRef.current = null;
+        };
+        await audio.play();
+      } catch {
+        if (!window.speechSynthesis) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.05;
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+        window.speechSynthesis.speak(utterance);
+      }
+    },
+    [stopSpeaking],
+  );
 
   const sendMessage = useCallback(
     async (text) => {
+      if (ARJUNS_AI_COMING_SOON) return;
       if (!text.trim() || isProcessing) return;
       setTranscript('');
       setTextInput('');
@@ -109,13 +117,12 @@ const VoiceAgent = () => {
     [messages, isProcessing, speak],
   );
 
-  // Keep ref current so speech recognition callbacks always call the latest version
   useEffect(() => {
     sendMessageRef.current = sendMessage;
   }, [sendMessage]);
 
-  // Set up speech recognition once
   useEffect(() => {
+    if (ARJUNS_AI_COMING_SOON) return;
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
       setSpeechSupported(false);
@@ -143,7 +150,7 @@ const VoiceAgent = () => {
   }, []);
 
   const toggleListening = () => {
-    if (!recognitionRef.current || isProcessing) return;
+    if (ARJUNS_AI_COMING_SOON || !recognitionRef.current || isProcessing) return;
     if (isListening) {
       recognitionRef.current.stop();
     } else {
@@ -157,28 +164,29 @@ const VoiceAgent = () => {
 
   const handleTextSubmit = (e) => {
     e.preventDefault();
-    sendMessage(textInput);
+    if (!ARJUNS_AI_COMING_SOON) sendMessage(textInput);
   };
 
-  const statusLabel = isProcessing
-    ? 'Thinking…'
-    : isListening
-      ? 'Listening…'
-      : isSpeaking
-        ? 'Speaking…'
-        : speechSupported
-          ? 'Press mic or type below'
-          : 'Type a message below';
+  const statusLabel = ARJUNS_AI_COMING_SOON
+    ? 'Coming soon — trained voice agent'
+    : isProcessing
+      ? 'Thinking…'
+      : isListening
+        ? 'Listening…'
+        : isSpeaking
+          ? 'Speaking…'
+          : speechSupported
+            ? 'Press mic or type below'
+            : 'Type a message below';
 
   return (
     <>
-      {/* Floating trigger button */}
       <motion.button
         onClick={() => setIsOpen((v) => !v)}
         className="fixed bottom-6 right-6 z-[9990] w-14 h-14 rounded-full bg-[var(--accent)] text-[var(--bg)] border border-[var(--border)] shadow-lg flex items-center justify-center"
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        aria-label={isOpen ? 'Close voice assistant' : 'Open voice assistant'}
+        aria-label={isOpen ? 'Close Arjun AI panel' : 'Open Arjun AI — coming soon'}
       >
         <AnimatePresence mode="wait" initial={false}>
           {isOpen ? (
@@ -193,7 +201,6 @@ const VoiceAgent = () => {
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -204,12 +211,17 @@ const VoiceAgent = () => {
             className="fixed bottom-24 right-6 z-[9990] w-80 sm:w-96 bg-[var(--panel)] border border-[var(--border)] rounded-xl shadow-2xl flex flex-col overflow-hidden"
             style={{ maxHeight: '72vh' }}
           >
-            {/* Header */}
-            <div className="bg-[var(--bg-elevated)] px-4 py-3 flex items-center gap-2 border-b border-[var(--border)] shrink-0">
+            <div className="bg-[var(--bg-elevated)] px-4 py-3 flex items-center gap-2 border-b border-[var(--border)] shrink-0 flex-wrap">
               <FaRobot className="text-[var(--accent)] shrink-0" size={16} />
-              <span className="text-[var(--fg)] font-bold text-sm font-mono uppercase tracking-wide">Chat — AI</span>
-              {isSpeaking && (
+              <div className="flex flex-col min-w-0 gap-0.5">
+                <span className="text-[var(--fg)] font-bold text-sm font-mono uppercase tracking-wide leading-tight">
+                  Arjun&apos;s AI
+                </span>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--accent)]">Coming soon</span>
+              </div>
+              {!ARJUNS_AI_COMING_SOON && isSpeaking && (
                 <button
+                  type="button"
                   onClick={stopSpeaking}
                   className="ml-auto text-[var(--muted)] hover:text-[var(--accent)] text-xs underline"
                 >
@@ -246,26 +258,28 @@ const VoiceAgent = () => {
               {error && <p className="text-xs text-red-500 text-center px-2">{error}</p>}
             </div>
 
-            {/* Live transcript preview */}
-            {transcript && (
+            {transcript && !ARJUNS_AI_COMING_SOON && (
               <div className="px-3 py-1.5 bg-[var(--bg-elevated)] border-t border-[var(--border)] text-xs text-[var(--muted)] italic shrink-0">
                 &ldquo;{transcript}&rdquo;
               </div>
             )}
 
-            {/* Controls */}
             <div className="p-3 border-t border-[var(--border)] bg-[var(--bg-elevated)] shrink-0 space-y-2">
-              {/* Status + mic */}
               <div className="flex items-center gap-3">
                 {speechSupported && (
                   <motion.button
+                    type="button"
                     onClick={toggleListening}
-                    disabled={isProcessing}
-                    whileTap={{ scale: 0.93 }}
-                    className={`w-11 h-11 shrink-0 rounded-full border border-[var(--border)] flex items-center justify-center transition-colors disabled:opacity-40 ${
-                      isListening ? 'bg-red-600 text-white animate-pulse' : 'bg-[var(--accent)] text-[var(--bg)]'
+                    disabled={ARJUNS_AI_COMING_SOON || isProcessing}
+                    whileTap={{ scale: ARJUNS_AI_COMING_SOON ? 1 : 0.93 }}
+                    className={`w-11 h-11 shrink-0 rounded-full border border-[var(--border)] flex items-center justify-center transition-colors ${
+                      ARJUNS_AI_COMING_SOON
+                        ? 'opacity-35 cursor-not-allowed bg-[var(--bg)] text-[var(--muted)]'
+                        : isListening
+                          ? 'bg-red-600 text-white animate-pulse'
+                          : 'bg-[var(--accent)] text-[var(--bg)]'
                     }`}
-                    aria-label={isListening ? 'Stop recording' : 'Start recording'}
+                    aria-label={ARJUNS_AI_COMING_SOON ? 'Voice input unavailable until launch' : isListening ? 'Stop recording' : 'Start recording'}
                   >
                     {isListening ? <FaStop size={14} /> : <FaMicrophone size={16} />}
                   </motion.button>
@@ -273,20 +287,19 @@ const VoiceAgent = () => {
                 <p className="text-xs text-[var(--muted)] flex-1">{statusLabel}</p>
               </div>
 
-              {/* Text input */}
               <form onSubmit={handleTextSubmit} className="flex gap-2">
                 <input
                   type="text"
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
-                  placeholder="Or type a message…"
-                  disabled={isProcessing}
-                  className="flex-1 text-xs px-3 py-2 rounded-md border border-[var(--border)] bg-[var(--bg)] text-[var(--fg)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--accent)] disabled:opacity-50"
+                  placeholder={ARJUNS_AI_COMING_SOON ? "Opens when Arjun's AI launches…" : 'Or type a message…'}
+                  disabled={ARJUNS_AI_COMING_SOON || isProcessing}
+                  className="flex-1 text-xs px-3 py-2 rounded-md border border-[var(--border)] bg-[var(--bg)] text-[var(--fg)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--accent)] disabled:opacity-45"
                 />
                 <button
                   type="submit"
-                  disabled={isProcessing || !textInput.trim()}
-                  className="w-9 h-9 rounded-md border border-[var(--border)] bg-[var(--accent)] text-[var(--bg)] flex items-center justify-center disabled:opacity-40"
+                  disabled={ARJUNS_AI_COMING_SOON || isProcessing || !textInput.trim()}
+                  className="w-9 h-9 rounded-md border border-[var(--border)] bg-[var(--accent)] text-[var(--bg)] flex items-center justify-center disabled:opacity-35"
                   aria-label="Send message"
                 >
                   <FaPaperPlane size={12} />

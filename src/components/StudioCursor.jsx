@@ -8,8 +8,12 @@ export default function StudioCursor() {
     const mq = window.matchMedia('(pointer: fine)');
     const sync = () => setFinePointer(mq.matches);
     sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', sync);
+      return () => mq.removeEventListener('change', sync);
+    }
+    mq.addListener(sync);
+    return () => mq.removeListener(sync);
   }, []);
 
   const mx = useMotionValue(-200);

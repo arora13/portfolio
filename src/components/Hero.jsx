@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react'
-import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion'
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import BinaryBackdrop from './BinaryBackdrop'
 import { Magnetic } from './Magnetic'
 
@@ -11,11 +11,11 @@ function SplitWord({ text, className = '', delay = 0 }) {
         <motion.span
           key={`${text}-${i}`}
           className="inline-block origin-bottom"
-          initial={{ opacity: 0, y: '1.1em', rotateX: -55 }}
+          initial={{ opacity: 0, y: '0.85em', rotateX: -35 }}
           animate={{ opacity: 1, y: 0, rotateX: 0 }}
           transition={{
             delay: delay + i * 0.028,
-            duration: 0.72,
+            duration: 0.65,
             ease: [0.22, 1, 0.36, 1],
           }}
         >
@@ -28,22 +28,35 @@ function SplitWord({ text, className = '', delay = 0 }) {
 
 const Hero = () => {
   const [interactionX, setInteractionX] = useState(null)
+  const [spotlight, setSpotlight] = useState({ xPct: 45, yPct: 40 })
+  const rafRef = useRef(0)
 
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const sx = useSpring(mx, { stiffness: 60, damping: 18 })
-  const sy = useSpring(my, { stiffness: 60, damping: 18 })
-  const spotlight = useMotionTemplate`radial-gradient(580px circle at ${sx}px ${sy}px, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%)`
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
 
   const onMouseMove = useCallback((e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    setInteractionX((e.clientX - rect.left) / rect.width)
-    mx.set(e.clientX - rect.left)
-    my.set(e.clientY - rect.top)
-  }, [mx, my])
+    const target = e.currentTarget
+    cancelAnimationFrame(rafRef.current)
+    rafRef.current = requestAnimationFrame(() => {
+      try {
+        const rect = target.getBoundingClientRect()
+        const w = Math.max(rect.width, 1)
+        const h = Math.max(rect.height, 1)
+        const ix = (e.clientX - rect.left) / w
+        setInteractionX(ix)
+        setSpotlight({
+          xPct: ((e.clientX - rect.left) / w) * 100,
+          yPct: ((e.clientY - rect.top) / h) * 100,
+        })
+      } catch {
+        setInteractionX(null)
+      }
+    })
+  }, [])
 
   const onMouseLeave = useCallback(() => {
+    cancelAnimationFrame(rafRef.current)
     setInteractionX(null)
+    setSpotlight({ xPct: 45, yPct: 35 })
   }, [])
 
   return (
@@ -55,10 +68,12 @@ const Hero = () => {
     >
       <BinaryBackdrop interactionX={interactionX} />
 
-      <motion.div
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] opacity-70"
-        style={{ background: spotlight }}
+        className="pointer-events-none absolute inset-0 z-[1] opacity-70 transition-[background] duration-75"
+        style={{
+          background: `radial-gradient(580px circle at ${spotlight.xPct}% ${spotlight.yPct}%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%)`,
+        }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto w-full pt-16">
@@ -85,18 +100,18 @@ const Hero = () => {
           </span>
           <motion.span
             className="block text-[var(--accent)] drop-shadow-[0_0_42px_color-mix(in_srgb,var(--accent)_38%,transparent)]"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.32, duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.28, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <SplitWord text="Engineer" delay={0.18} />
+            <SplitWord text="Engineer" delay={0.16} />
           </motion.span>
         </h1>
 
         <motion.p
           initial={{ opacity: 0, filter: 'blur(8px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 0.9, delay: 0.55 }}
+          transition={{ duration: 0.85, delay: 0.5 }}
           className="mt-10 max-w-xl text-sm sm:text-base text-[var(--muted)] leading-relaxed"
         >
           Building software, AI, and systems with bold execution. Math minor. Interested in embedded systems,
@@ -106,7 +121,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
+          transition={{ delay: 0.6 }}
           className="mt-12 flex flex-wrap gap-6 items-center"
         >
           <Magnetic strength={0.4}>
@@ -134,7 +149,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.9 }}
           className="mt-16 font-mono text-[10px] text-[var(--muted)] flex flex-wrap gap-6"
         >
           <span className="flex items-center gap-2">

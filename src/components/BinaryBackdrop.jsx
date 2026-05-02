@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 
 function randomBits(len) {
   let s = '';
@@ -6,7 +6,7 @@ function randomBits(len) {
   return s;
 }
 
-const BinaryBackdrop = ({ className = '', interactionX = null }) => {
+const BinaryBackdropInner = ({ className = '', interactionX = null }) => {
   const columns = useMemo(() => {
     return Array.from({ length: 16 }, (_, i) => ({
       id: i,
@@ -48,4 +48,5 @@ const BinaryBackdrop = ({ className = '', interactionX = null }) => {
   );
 };
 
+const BinaryBackdrop = memo(BinaryBackdropInner);
 export default BinaryBackdrop;
