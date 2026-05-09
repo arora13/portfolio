@@ -3,6 +3,7 @@
 This is my personal developer portfolio website built using **React**, **Three.js**, **Framer Motion**, and **Tailwind CSS v4**. It showcases my projects, timeline, and contact information in an interactive and visually engaging format.
 
 ## Features
+- Voice agent panel (in progress — conversational UI, mic path planned)
 - 3D animated hero section with custom geometry
 - Responsive design
 - Smooth scroll and motion effects
