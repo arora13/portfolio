@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaMicrophone, FaTimes, FaRobot, FaStop, FaPaperPlane } from 'react-icons/fa';
 
-/** When true: no backend calls — Arjun's AI is marketed as coming soon (trained voice agent). */
+/** When true: skip backend — voice agent ships as “coming soon” until the trained model is live. */
 const ARJUNS_AI_COMING_SOON = true;
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
